@@ -1,16 +1,73 @@
-# React + Vite
+# PulseStream ⚡
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A multi-source developer content aggregator built with **React**, bringing technical news and developer discussions from different platforms into one unified dashboard.
 
-Currently, two official plugins are available:
+PulseStream was built as my first React project to practice working with APIs, asynchronous data, state management, data normalization, caching, reusable components, and responsive UI development.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## ✨ Features
 
-## React Compiler
+* 📰 **Unified Feed** — Combines content from Hacker News, Dev.to, and Reddit into a single feed.
+* 🔎 **Global Search** — Search across available stories.
+* 🏷️ **Source Filtering** — Filter stories by Hacker News, Dev.to, Reddit, or view all sources.
+* 📖 **Article Inspector** — Open a story and view its information before visiting the original source.
+* 🔖 **Bookmarks** — Save stories for later using browser LocalStorage.
+* 📤 **Share** — Generate and copy shareable story information.
+* 📊 **Analytics Dashboard** — View feed activity and content insights using Recharts.
+* 💚 **API Health Monitor** — Monitor API availability and response latency.
+* 🗄️ **Cache Management** — Manage TanStack Query cache and stored application data.
+* 🌤️ **Live Weather** — Displays current weather information using Open-Meteo.
+* 🕐 **Live Clock** — Displays the current local time.
+* 📡 **Live Ticker** — Displays trending information from the available feed data.
+* 🎨 **Theme Customization** — Switch between different accent themes and adjust font scaling.
+* 📱 **Responsive Design** — Designed to work across desktop, tablet, and mobile screens.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 🛠️ Tech Stack
 
-## Expanding the ESLint configuration
+* **React**
+* **JavaScript (ES6+)**
+* **Vite**
+* **Tailwind CSS**
+* **TanStack Query**
+* **Recharts**
+* **Lucide React**
+* **LocalStorage**
+* **Public REST APIs**
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 🌐 APIs
+
+PulseStream currently works with:
+
+* **Hacker News API** — Developer and technology stories
+* **Dev.to API** — Developer articles and discussions
+* **Reddit** — Community discussions from selected technology-related subreddits
+* **Open-Meteo API** — Weather information
+
+## 🧠 What I Practiced
+
+This project helped me apply several React and JavaScript concepts in a real application, including:
+
+* React components and props
+* React state and effects
+* API requests and asynchronous JavaScript
+* TanStack Query
+* Data normalization
+* Array methods such as `map()` and `filter()`
+* Spread syntax
+* Conditional rendering
+* Loading and error states
+* Client-side caching
+* LocalStorage
+* Responsive UI development
+* Data visualization with Recharts
+
+## 📌 Project Status
+
+**Completed — First React Project**
+
+PulseStream was built as a learning project and is open to future improvements and optimizations.
+
+## 👩🏽‍💻 Author
+
+**Chioma Okwara**
+
+IT Student & Aspiring Software Developer
