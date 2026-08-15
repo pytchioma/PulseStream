@@ -5,11 +5,7 @@ import {
   Trash2, HardDrive, CheckCircle, AlertCircle,
   LoaderCircle,
 } from 'lucide-react';
-
-// ── LocalStorage keys owned by PulseStream ────────────────────────────────────
-// Only these keys are removed on "Clear Local Storage".
-// We never call localStorage.clear() which would wipe unrelated browser data.
-const PS_STORAGE_KEYS = ['pulseStreamBookmarks'];
+import { PS_STORAGE_KEYS } from '../lib/storage.js';
 
 // ── Health check definitions ──────────────────────────────────────────────────
 // Each entry describes one API to probe.
