@@ -1,9 +1,11 @@
 import { useState, useMemo } from 'react';
 import { useQuery, useQueries } from '@tanstack/react-query';
+import { Search, X, Bookmark, BarChart2 } from 'lucide-react';
 import StoryCard from './components/StoryCard';
 import StoryInspector from './components/StoryInspector';
+import AnalyticsView from './components/AnalyticsView';
 import { fetchHNTopIds, fetchHNStory, fetchDevTo, fetchReddit } from './lib/api.js';
-import { getBookmarks, removeBookmark } from './lib/storage.js';
+import { getBookmarks } from './lib/storage.js';
 
 const QC = { staleTime: 60_000, refetchInterval: 60_000 };
 
@@ -62,29 +64,27 @@ function Header({ activeFilter, onFilter, statuses, search, onSearch, view, onVi
             </div>
           </div>
 
-          {/* Search — now functional */}
-          <div className="hidden sm:flex flex-1 max-w-xs items-center gap-2 bg-slate-800/60 border border-slate-700/60 focus-within:border-emerald-500/40 rounded-lg px-3 py-1.5 transition-colors">
-            <svg className="w-3.5 h-3.5 text-slate-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z" />
-            </svg>
-            <input
-              type="search"
-              value={search}
-              onChange={e => onSearch(e.target.value)}
-              placeholder="Search feed..."
-              aria-label="Search stories"
-              className="flex-1 bg-transparent text-xs font-mono text-slate-300 placeholder-slate-500 outline-none"
-            />
-            {search && (
-              <button onClick={() => onSearch('')} aria-label="Clear search" className="text-slate-600 hover:text-slate-400 transition-colors">
-                <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
-            )}
-          </div>
+          {/* Search — hidden in analytics/saved views */}
+          {view === 'feed' && (
+            <div className="hidden sm:flex flex-1 max-w-xs items-center gap-2 bg-slate-800/60 border border-slate-700/60 focus-within:border-emerald-500/40 rounded-lg px-3 py-1.5 transition-colors">
+              <Search size={14} className="text-slate-500 shrink-0" />
+              <input
+                type="search"
+                value={search}
+                onChange={e => onSearch(e.target.value)}
+                placeholder="Search feed..."
+                aria-label="Search stories"
+                className="flex-1 bg-transparent text-xs font-mono text-slate-300 placeholder-slate-500 outline-none"
+              />
+              {search && (
+                <button onClick={() => onSearch('')} aria-label="Clear search" className="text-slate-600 hover:text-slate-400 transition-colors">
+                  <X size={12} />
+                </button>
+              )}
+            </div>
+          )}
 
-          {/* Right side — status + saved toggle */}
+          {/* Right side — status + nav buttons */}
           <div className="flex items-center gap-2 shrink-0">
             <div className="flex items-center gap-1.5 bg-slate-800/60 border border-slate-700/50 rounded-full px-3 py-1">
               {Object.entries(statuses).map(([src, status]) => (
@@ -99,7 +99,21 @@ function Header({ activeFilter, onFilter, statuses, search, onSearch, view, onVi
               </span>
             </div>
 
-            {/* Saved / Feed toggle */}
+            {/* Analytics toggle */}
+            <button
+              onClick={() => onView(view === 'analytics' ? 'feed' : 'analytics')}
+              aria-label={view === 'analytics' ? 'Back to feed' : 'View analytics'}
+              className={`flex items-center gap-1.5 px-3 py-1 rounded-full border text-[10px] font-mono uppercase tracking-wider transition-colors
+                ${view === 'analytics'
+                  ? 'bg-emerald-500/15 border-emerald-500/40 text-emerald-400'
+                  : 'bg-slate-800/60 border-slate-700/50 text-slate-400 hover:border-slate-600 hover:text-slate-300'
+                }`}
+            >
+              <BarChart2 size={12} />
+              <span className="hidden sm:inline">Analytics</span>
+            </button>
+
+            {/* Saved toggle */}
             <button
               onClick={() => onView(view === 'saved' ? 'feed' : 'saved')}
               aria-label={view === 'saved' ? 'Back to feed' : 'View saved stories'}
@@ -109,22 +123,18 @@ function Header({ activeFilter, onFilter, statuses, search, onSearch, view, onVi
                   : 'bg-slate-800/60 border-slate-700/50 text-slate-400 hover:border-slate-600 hover:text-slate-300'
                 }`}
             >
-              <svg className="w-3 h-3" fill={view === 'saved' ? 'currentColor' : 'none'} viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M5 5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16l-7-3.5L5 21V5z" />
-              </svg>
-              Saved
+              <Bookmark size={12} fill={view === 'saved' ? 'currentColor' : 'none'} />
+              <span className="hidden sm:inline">Saved</span>
             </button>
           </div>
         </div>
 
-        {/* Source filter pills — hidden in saved view */}
+        {/* Source filter pills — feed view only */}
         {view === 'feed' && (
           <div className="flex items-center gap-2 pb-3 overflow-x-auto">
             {/* Mobile search */}
             <div className="sm:hidden flex items-center gap-2 bg-slate-800/60 border border-slate-700/60 focus-within:border-emerald-500/40 rounded-lg px-3 py-1.5 flex-1 transition-colors">
-              <svg className="w-3.5 h-3.5 text-slate-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z" />
-              </svg>
+              <Search size={14} className="text-slate-500 shrink-0" />
               <input
                 type="search"
                 value={search}
@@ -134,6 +144,23 @@ function Header({ activeFilter, onFilter, statuses, search, onSearch, view, onVi
                 className="flex-1 bg-transparent text-xs font-mono text-slate-300 placeholder-slate-500 outline-none"
               />
             </div>
+            {SOURCE_FILTERS.map(f => (
+              <button key={f.key} onClick={() => onFilter(f.key)}
+                className={`shrink-0 px-3 py-1 rounded-full text-[11px] font-mono uppercase tracking-wider transition-all duration-150 cursor-pointer
+                  ${activeFilter === f.key
+                    ? 'bg-emerald-500/15 border border-emerald-500/40 text-emerald-400'
+                    : 'bg-slate-800/50 border border-slate-700/50 text-slate-400 hover:border-slate-600 hover:text-slate-300'
+                  }`}
+              >
+                {f.label}
+              </button>
+            ))}
+          </div>
+        )}
+
+        {/* Analytics source filter pills — analytics view only */}
+        {view === 'analytics' && (
+          <div className="flex items-center gap-2 pb-3 overflow-x-auto">
             {SOURCE_FILTERS.map(f => (
               <button key={f.key} onClick={() => onFilter(f.key)}
                 className={`shrink-0 px-3 py-1 rounded-full text-[11px] font-mono uppercase tracking-wider transition-all duration-150 cursor-pointer
@@ -189,8 +216,8 @@ export default function App() {
   const [activeFilter, setActiveFilter]   = useState('all');
   const [search, setSearch]               = useState('');
   const [activeStory, setActiveStory]     = useState(null);
-  const [view, setView]                   = useState('feed');   // 'feed' | 'saved'
-  const [bookmarkTick, setBookmarkTick]   = useState(0);        // increment to force saved re-render
+  const [view, setView]                   = useState('feed');   // 'feed' | 'saved' | 'analytics'
+  const [bookmarkTick, setBookmarkTick]   = useState(0);
 
   function onBookmarkChange() { setBookmarkTick(t => t + 1); }
 
@@ -247,6 +274,14 @@ export default function App() {
     return stories;
   }, [allStories, activeFilter, search]);
 
+  // ── Analytics stories — source-filtered but not search-filtered ──
+  // Search is a feed-level concern; analytics should reflect the full
+  // source selection so charts aren't distorted by a typed query.
+  const analyticsStories = useMemo(
+    () => activeFilter === 'all' ? allStories : allStories.filter(s => s.source === activeFilter),
+    [allStories, activeFilter]
+  );
+
   return (
     <div className="min-h-screen bg-slate-950">
       <Header
@@ -264,9 +299,15 @@ export default function App() {
         {/* Feed label */}
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-3">
-            <div className={`w-0.5 h-4 rounded-full ${view === 'saved' ? 'bg-amber-400' : 'bg-emerald-400'}`} />
+            <div className={`w-0.5 h-4 rounded-full ${
+              view === 'saved'     ? 'bg-amber-400'  :
+              view === 'analytics' ? 'bg-emerald-400' :
+              'bg-emerald-400'
+            }`} />
             <span className="text-[11px] font-mono uppercase tracking-widest text-slate-400">
-              {view === 'saved' ? 'Saved Stories' : 'Live Feed'}
+              {view === 'saved'     ? 'Saved Stories'       :
+               view === 'analytics' ? 'Analytics & Trends'  :
+               'Live Feed'}
             </span>
           </div>
           {view === 'feed' && !isLoading && (
@@ -274,10 +315,18 @@ export default function App() {
               {feed.length} stories{search ? ' found' : ''}
             </span>
           )}
+          {view === 'analytics' && !isLoading && (
+            <span className="text-[10px] font-mono text-slate-600 uppercase tracking-wider">
+              {analyticsStories.length} stories
+              {activeFilter !== 'all' ? ` · ${activeFilter}` : ''}
+            </span>
+          )}
         </div>
 
         {/* Content */}
-        {view === 'saved' ? (
+        {view === 'analytics' ? (
+          <AnalyticsView stories={analyticsStories} />
+        ) : view === 'saved' ? (
           // bookmarkTick in key forces SavedView to re-mount and re-read localStorage on changes
           <SavedView key={bookmarkTick} onSelect={setActiveStory} onBookmarkChange={onBookmarkChange} />
         ) : isLoading ? (
@@ -305,7 +354,7 @@ export default function App() {
 
         {/* Footer */}
         <div className="mt-10 pt-4 border-t border-slate-800/50 flex items-center justify-between">
-          <span className="text-[10px] font-mono text-slate-700 uppercase tracking-widest">PulseStream v0.3.0</span>
+          <span className="text-[10px] font-mono text-slate-700 uppercase tracking-widest">PulseStream v0.4.0</span>
           <span className="text-[10px] font-mono text-slate-700 uppercase tracking-widest">Refreshes every 60s</span>
         </div>
       </main>

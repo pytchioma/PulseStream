@@ -3,10 +3,6 @@
 @theme {
   --color-slate-950: #020617;
   --color-zinc-950: #09090b;
-
-  --animate-slide-in: slideIn 0.2s ease-out;
-  --animate-shimmer: shimmer 1.8s infinite;
-  --animate-pulse-dot: pulse-dot 1.8s ease-in-out infinite;
 }
 
 * {
