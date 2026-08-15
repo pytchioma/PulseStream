@@ -5,9 +5,65 @@
   --color-zinc-950: #09090b;
 }
 
-* {
-  box-sizing: border-box;
+/* ── Accent theme tokens ────────────────────────────────────────────────────
+   Applied by setting data-theme on <html>.
+   Components read these via inline style={{ color: 'var(--accent)' }} etc.
+   ───────────────────────────────────────────────────────────────────────── */
+
+:root,
+[data-theme="emerald"] {
+  --accent:           #10b981;   /* emerald-500  */
+  --accent-dim:       #059669;   /* emerald-600  */
+  --accent-faint:     rgba(16, 185, 129, 0.10);
+  --accent-border:    rgba(16, 185, 129, 0.35);
+  --accent-text:      #34d399;   /* emerald-400  */
+  --accent-glow:      rgba(16, 185, 129, 0.06);
+  --accent-ticker:    rgba(16, 185, 129, 0.50);
 }
+
+[data-theme="cyan"] {
+  --accent:           #06b6d4;   /* cyan-500     */
+  --accent-dim:       #0891b2;   /* cyan-600     */
+  --accent-faint:     rgba(6, 182, 212, 0.10);
+  --accent-border:    rgba(6, 182, 212, 0.35);
+  --accent-text:      #22d3ee;   /* cyan-400     */
+  --accent-glow:      rgba(6, 182, 212, 0.06);
+  --accent-ticker:    rgba(6, 182, 212, 0.50);
+}
+
+[data-theme="amber"] {
+  --accent:           #f59e0b;   /* amber-500    */
+  --accent-dim:       #d97706;   /* amber-600    */
+  --accent-faint:     rgba(245, 158, 11, 0.10);
+  --accent-border:    rgba(245, 158, 11, 0.35);
+  --accent-text:      #fbbf24;   /* amber-400    */
+  --accent-glow:      rgba(245, 158, 11, 0.06);
+  --accent-ticker:    rgba(245, 158, 11, 0.50);
+}
+
+/* ── Font scale ─────────────────────────────────────────────────────────────
+   Applied via data-scale on <html>.
+   All rem-based sizes (Tailwind text-*, font-size) scale accordingly.
+   ───────────────────────────────────────────────────────────────────────── */
+
+[data-scale="sm"] { font-size: 87.5%;  }
+[data-scale="md"] { font-size: 100%;   }
+[data-scale="lg"] { font-size: 112.5%; }
+
+/* ── Accent utility classes ─────────────────────────────────────────────────
+   Used in JS as className strings so themed elements don't need inline styles
+   for common patterns. Add more as needed.
+   ───────────────────────────────────────────────────────────────────────── */
+
+.accent-text   { color: var(--accent-text); }
+.accent-border { border-color: var(--accent-border); }
+.accent-bg     { background-color: var(--accent-faint); }
+.accent-dot    { background-color: var(--accent); }
+.accent-bar    { background-color: var(--accent); }
+
+/* ── Base reset ─────────────────────────────────────────────────────────────*/
+
+* { box-sizing: border-box; }
 
 html, body {
   margin: 0;
@@ -18,20 +74,20 @@ html, body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Subtle animated grid background */
+/* ── Background atmosphere ──────────────────────────────────────────────────*/
+
 body::before {
   content: '';
   position: fixed;
   inset: 0;
   background-image:
-    linear-gradient(rgba(16, 185, 129, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(16, 185, 129, 0.03) 1px, transparent 1px);
+    linear-gradient(var(--accent-glow, rgba(16,185,129,0.03)) 1px, transparent 1px),
+    linear-gradient(90deg, var(--accent-glow, rgba(16,185,129,0.03)) 1px, transparent 1px);
   background-size: 40px 40px;
   pointer-events: none;
   z-index: 0;
 }
 
-/* Radial glow at top */
 body::after {
   content: '';
   position: fixed;
@@ -40,32 +96,41 @@ body::after {
   transform: translateX(-50%);
   width: 80vw;
   height: 60vh;
-  background: radial-gradient(ellipse at center, rgba(16, 185, 129, 0.06) 0%, transparent 70%);
+  background: radial-gradient(ellipse at center, var(--accent-glow, rgba(16,185,129,0.06)) 0%, transparent 70%);
   pointer-events: none;
   z-index: 0;
 }
 
-/* Scrollbar */
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: #0f172a; }
-::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: #10b981; }
+/* ── Scrollbar ──────────────────────────────────────────────────────────────*/
 
-/* Animations */
+::-webkit-scrollbar        { width: 6px; }
+::-webkit-scrollbar-track  { background: #0f172a; }
+::-webkit-scrollbar-thumb  { background: #1e293b; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent, #10b981); }
+
+/* ── Animations ─────────────────────────────────────────────────────────────*/
+
 @keyframes shimmer {
   0%   { background-position: -200% 0; }
   100% { background-position:  200% 0; }
 }
 
 @keyframes pulse-dot {
-  0%, 100% { opacity: 1; transform: scale(1); }
+  0%, 100% { opacity: 1;   transform: scale(1);    }
   50%       { opacity: 0.4; transform: scale(0.85); }
 }
 
 @keyframes slideIn {
   from { transform: translateX(100%); }
-  to   { transform: translateX(0); }
+  to   { transform: translateX(0);    }
 }
+
+@keyframes ticker {
+  0%   { transform: translateX(0);    }
+  100% { transform: translateX(-50%); }
+}
+
+/* ── Component classes ──────────────────────────────────────────────────────*/
 
 .skeleton {
   background: linear-gradient(90deg, #1e293b 25%, #334155 50%, #1e293b 75%);
@@ -76,8 +141,23 @@ body::after {
 
 .live-dot {
   animation: pulse-dot 1.8s ease-in-out infinite;
+  background-color: var(--accent, #10b981);
 }
 
 .drawer-slide-in {
   animation: slideIn 0.2s ease-out;
+}
+
+.ticker-track {
+  display: flex;
+  width: max-content;
+  animation: ticker 30s linear infinite;
+}
+
+.ticker-track:hover {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ticker-track { animation: none; }
 }

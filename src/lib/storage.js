@@ -1,43 +1,65 @@
-const KEY = 'pulseStreamBookmarks';
+// ── Keys ──────────────────────────────────────────────────────────────────────
+// All localStorage keys owned by PulseStream.
+// SystemHealth.jsx references this list for "Clear Local Storage".
 
-function load() {
+export const PS_STORAGE_KEYS = [
+  'pulseStreamBookmarks',
+  'pulseStreamTheme',
+  'pulseStreamFontScale',
+];
+
+const KEYS = {
+  bookmarks:  'pulseStreamBookmarks',
+  theme:      'pulseStreamTheme',
+  fontScale:  'pulseStreamFontScale',
+};
+
+// ── Internal helpers ──────────────────────────────────────────────────────────
+
+function load(key, fallback) {
   try {
-    return JSON.parse(localStorage.getItem(KEY) ?? '{}');
+    const raw = localStorage.getItem(key);
+    if (raw === null) return fallback;
+    return JSON.parse(raw);
   } catch {
-    return {};
+    return fallback;
   }
 }
 
-function save(data) {
-  try { localStorage.setItem(KEY, JSON.stringify(data)); } catch { /* quota full */ }
+function save(key, value) {
+  try { localStorage.setItem(key, JSON.stringify(value)); } catch { /* quota full */ }
 }
 
-export function getBookmarks() {
-  return load(); // { [story.id]: story }
-}
+// ── Bookmarks ─────────────────────────────────────────────────────────────────
 
-export function isBookmarked(id) {
-  return Boolean(load()[id]);
-}
+export function getBookmarks()        { return load(KEYS.bookmarks, {}); }
+export function isBookmarked(id)      { return Boolean(getBookmarks()[id]); }
 
 export function addBookmark(story) {
-  const data = load();
+  const data = getBookmarks();
   data[story.id] = story;
-  save(data);
+  save(KEYS.bookmarks, data);
 }
 
 export function removeBookmark(id) {
-  const data = load();
+  const data = getBookmarks();
   delete data[id];
-  save(data);
+  save(KEYS.bookmarks, data);
 }
 
 export function toggleBookmark(story) {
-  if (isBookmarked(story.id)) {
-    removeBookmark(story.id);
-    return false;
-  } else {
-    addBookmark(story);
-    return true;
-  }
+  if (isBookmarked(story.id)) { removeBookmark(story.id); return false; }
+  addBookmark(story); return true;
 }
+
+// ── Theme ─────────────────────────────────────────────────────────────────────
+// Valid values: 'emerald' | 'cyan' | 'amber'
+
+export function getTheme()       { return load(KEYS.theme, 'emerald'); }
+export function saveTheme(theme) { save(KEYS.theme, theme); }
+
+// ── Font scale ────────────────────────────────────────────────────────────────
+// Valid values: 'sm' | 'md' | 'lg'
+
+export function getFontScale()        { return load(KEYS.fontScale, 'md'); }
+export function saveFontScale(scale)  { save(KEYS.fontScale, scale); }
