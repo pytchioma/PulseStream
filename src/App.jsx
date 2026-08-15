@@ -65,7 +65,7 @@ async function fetchWeather() {
     navigator.geolocation.getCurrentPosition(
       pos => resolve({ lat: pos.coords.latitude, lon: pos.coords.longitude }),
       ()  => resolve({ lat: 6.5, lon: 3.4 }),
-      { timeout: 4000 }
+      { timeout: 1500 }
     );
   });
   const res = await fetch(
@@ -412,7 +412,7 @@ export default function App() {
     queryKey: ['hackerNews'], queryFn: fetchHNTopIds, ...QC,
   });
   const hnQueries = useQueries({
-    queries: (hnIds ?? []).slice(0, 10).map(id => ({
+    queries: (hnIds ?? []).slice(0, 8).map(id => ({
       queryKey: ['story', id], queryFn: () => fetchHNStory(id), ...QC,
     })),
   });
@@ -430,6 +430,9 @@ export default function App() {
   });
 
   const isLoading = hnLoading || devtoLoading || redditLoading;
+  // Only block the feed render if ALL sources are still loading.
+  // If at least one source has data, show it immediately.
+  const allLoading = hnLoading && devtoLoading && redditLoading;
 
   const statuses = {
     hn:     hnError     ? 'error' : hnLoading     ? 'loading' : 'ok',
@@ -501,7 +504,7 @@ export default function App() {
           />
         ) : view === 'saved' ? (
           <SavedView key={bookmarkTick} onSelect={setStory} onBookmarkChange={onBookmarkChange} />
-        ) : isLoading ? (
+        ) : allLoading ? (
           <div className="space-y-3">
             {Array.from({ length: 6 }).map((_, i) => <SkeletonCard key={i} />)}
           </div>
