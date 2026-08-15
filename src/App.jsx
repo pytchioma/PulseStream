@@ -213,7 +213,7 @@ function Header({ activeFilter, onFilter, statuses, search, onSearch, view, onVi
   const allOk = Object.values(statuses).every(s => s === 'ok');
 
   return (
-    <header className="sticky top-0 z-10 border-b border-slate-800 bg-slate-950/80 backdrop-blur-md">
+    <header className="border-b border-slate-800 bg-slate-950/80 backdrop-blur-md">
       <div className="max-w-4xl mx-auto px-4 sm:px-6">
         <div className="flex items-center justify-between py-3 gap-3">
 
@@ -230,10 +230,6 @@ function Header({ activeFilter, onFilter, statuses, search, onSearch, view, onVi
               <span className="text-white font-bold tracking-widest text-sm uppercase">
                 Pulse<span className="accent-text">Stream</span>
               </span>
-              <div className="flex items-center gap-1.5 mt-0.5">
-                <span className="live-dot w-1.5 h-1.5 rounded-full inline-block" />
-                <span className="text-[10px] font-mono uppercase tracking-widest accent-text">Live</span>
-              </div>
             </div>
           </button>
 

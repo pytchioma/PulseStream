@@ -74,33 +74,6 @@ html, body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* ── Background atmosphere ──────────────────────────────────────────────────*/
-
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background-image:
-    linear-gradient(var(--accent-glow, rgba(16,185,129,0.03)) 1px, transparent 1px),
-    linear-gradient(90deg, var(--accent-glow, rgba(16,185,129,0.03)) 1px, transparent 1px);
-  background-size: 40px 40px;
-  pointer-events: none;
-  z-index: 0;
-}
-
-body::after {
-  content: '';
-  position: fixed;
-  top: -20%;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 80vw;
-  height: 60vh;
-  background: radial-gradient(ellipse at center, var(--accent-glow, rgba(16,185,129,0.06)) 0%, transparent 70%);
-  pointer-events: none;
-  z-index: 0;
-}
-
 /* ── Scrollbar ──────────────────────────────────────────────────────────────*/
 
 ::-webkit-scrollbar        { width: 6px; }
