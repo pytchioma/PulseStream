@@ -1,7 +1,10 @@
+import { useState } from 'react';
+import { toggleBookmark, isBookmarked } from '../lib/storage.js';
+
 const SOURCE = {
   hackernews: { label: 'Hacker News', dot: 'bg-orange-400', badge: 'bg-orange-500/10 border-orange-500/25 text-orange-400/90' },
   devto:      { label: 'Dev.to',      dot: 'bg-violet-400', badge: 'bg-violet-500/10 border-violet-500/25 text-violet-400/90' },
-  reddit:     { label: 'Reddit',      dot: 'bg-rose-400',   badge: 'bg-rose-500/10   border-rose-500/25   text-rose-400/90'   },
+  reddit:     { label: 'Reddit',      dot: 'bg-rose-400',   badge: 'bg-rose-500/10 border-rose-500/25 text-rose-400/90' },
 };
 
 function timeAgo(unix) {
@@ -18,20 +21,35 @@ function getDomain(url) {
   catch { return null; }
 }
 
-export default function StoryCard({ story, index }) {
-  const src  = SOURCE[story.source] ?? { label: story.source, dot: 'bg-slate-400', badge: 'bg-slate-500/10 border-slate-500/25 text-slate-400/90' };
-  const time = timeAgo(story.createdAt);
-  const domain = story.url ? getDomain(story.url) : null;
-  const showDomain = domain && !['news.ycombinator.com','reddit.com','dev.to'].some(d => domain.includes(d));
+// onSelect — called when the card body is clicked (opens inspector)
+// onBookmarkChange — called after bookmark is toggled (so parent can re-sync)
+export default function StoryCard({ story, index, onSelect, onBookmarkChange }) {
+  const [bookmarked, setBookmarked] = useState(() => isBookmarked(story.id));
+
+  const src        = SOURCE[story.source] ?? { label: story.source, dot: 'bg-slate-400', badge: 'bg-slate-500/10 border-slate-500/25 text-slate-400/90' };
+  const time       = timeAgo(story.createdAt);
+  const domain     = story.url ? getDomain(story.url) : null;
+  const showDomain = domain && !['news.ycombinator.com', 'reddit.com', 'dev.to'].some(d => domain.includes(d));
+
+  function handleBookmark(e) {
+    e.stopPropagation(); // don't open the inspector
+    const nowBookmarked = toggleBookmark(story);
+    setBookmarked(nowBookmarked);
+    onBookmarkChange?.();
+  }
 
   return (
-    <article className="group relative rounded-xl border border-slate-800/60 bg-slate-900/40 backdrop-blur-sm
-                        hover:border-emerald-500/30 hover:bg-slate-900/70 transition-all duration-200
-                        hover:shadow-[0_0_20px_-4px_rgba(16,185,129,0.15)] overflow-hidden">
+    <article
+      onClick={() => onSelect?.(story)}
+      className="group relative rounded-xl border border-slate-800/60 bg-slate-900/40 backdrop-blur-sm
+                 hover:border-emerald-500/30 hover:bg-slate-900/70 transition-all duration-200
+                 hover:shadow-[0_0_20px_-4px_rgba(16,185,129,0.15)] overflow-hidden
+                 cursor-pointer"
+    >
       <div className="absolute left-0 top-0 bottom-0 w-0.5 bg-emerald-400/0 group-hover:bg-emerald-400/60 transition-all duration-200" />
 
       <div className="px-5 py-4 pl-6">
-        {/* Row 1 — source + rank */}
+        {/* Row 1 — source + rank + bookmark */}
         <div className="flex items-center justify-between mb-2.5">
           <div className="flex items-center gap-2">
             <div className={`flex items-center gap-1.5 border rounded-md px-2 py-0.5 ${src.badge}`}>
@@ -44,15 +62,40 @@ export default function StoryCard({ story, index }) {
               </span>
             )}
           </div>
-          {index != null && (
-            <span className="text-[11px] font-mono text-slate-700 group-hover:text-slate-600 transition-colors tabular-nums">
-              #{String(index + 1).padStart(2, '0')}
-            </span>
-          )}
+
+          <div className="flex items-center gap-2">
+            {/* Bookmark button */}
+            <button
+              onClick={handleBookmark}
+              aria-label={bookmarked ? 'Remove bookmark' : 'Bookmark story'}
+              className={`w-6 h-6 flex items-center justify-center rounded transition-colors
+                ${bookmarked
+                  ? 'text-amber-400'
+                  : 'text-slate-700 hover:text-slate-400'
+                }`}
+            >
+              <svg className="w-3.5 h-3.5" fill={bookmarked ? 'currentColor' : 'none'} viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M5 5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16l-7-3.5L5 21V5z" />
+              </svg>
+            </button>
+
+            {index != null && (
+              <span className="text-[11px] font-mono text-slate-700 group-hover:text-slate-600 transition-colors tabular-nums">
+                #{String(index + 1).padStart(2, '0')}
+              </span>
+            )}
+          </div>
         </div>
 
         {/* Row 2 — title */}
-        <a href={story.url} target="_blank" rel="noopener noreferrer" className="block mb-3">
+        {/* Clicking the title still opens the external link; card body opens the inspector */}
+        <a
+          href={story.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={e => e.stopPropagation()}
+          className="block mb-3"
+        >
           <h2 className="text-slate-100 font-semibold text-sm sm:text-base leading-snug line-clamp-2
                          group-hover:text-emerald-300 transition-colors duration-200">
             {story.title}
@@ -61,14 +104,11 @@ export default function StoryCard({ story, index }) {
 
         {/* Row 3 — meta */}
         <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5 text-[11px] font-mono">
-          {story.author && (
-            <span className="text-slate-500">{story.author}</span>
-          )}
-          {story.score != null && (
-            <span className="text-emerald-400/80">▲ {story.score.toLocaleString()}</span>
-          )}
+          {story.author && <span className="text-slate-500">{story.author}</span>}
+          {story.score != null && <span className="text-emerald-400/80">▲ {story.score.toLocaleString()}</span>}
           {story.commentsCount > 0 && (
             <a href={story.commentsUrl} target="_blank" rel="noopener noreferrer"
+               onClick={e => e.stopPropagation()}
                className="text-slate-500 hover:text-cyan-400 transition-colors">
               {story.commentsCount.toLocaleString()} comments
             </a>
@@ -76,6 +116,7 @@ export default function StoryCard({ story, index }) {
           {time && <span className="text-slate-600">{time}</span>}
           {showDomain && (
             <a href={story.url} target="_blank" rel="noopener noreferrer"
+               onClick={e => e.stopPropagation()}
                className="text-slate-700 hover:text-cyan-400 transition-colors" title={story.url}>
               ↗ {domain}
             </a>
