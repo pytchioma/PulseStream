@@ -62,9 +62,11 @@ This project helped me apply several React and JavaScript concepts in a real app
 
 ## 📌 Project Status
 
-**Completed — First React Project**
+🚧 In Progress
 
-PulseStream was built as a learning project and is open to future improvements and optimizations.
+PulseStream is currently functional and actively being refined. The core API integrations, unified feed, search, filtering, bookmarks, analytics, caching, and responsive interface have been implemented.
+
+Future improvements will focus on UI/UX refinement, performance optimization, and additional polish.
 
 ## 👩🏽‍💻 Author
 
