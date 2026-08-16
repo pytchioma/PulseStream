@@ -4,22 +4,22 @@ A multi-source developer content aggregator built with **React**, bringing techn
 
 PulseStream was built as my first React project to practice working with APIs, asynchronous data, state management, data normalization, caching, reusable components, and responsive UI development.
 
-## ✨ Features
+##  Features
 
-* 📰 **Unified Feed** — Combines content from Hacker News, Dev.to, and Reddit into a single feed.
-* 🔎 **Global Search** — Search across available stories.
-* 🏷️ **Source Filtering** — Filter stories by Hacker News, Dev.to, Reddit, or view all sources.
-* 📖 **Article Inspector** — Open a story and view its information before visiting the original source.
-* 🔖 **Bookmarks** — Save stories for later using browser LocalStorage.
-* 📤 **Share** — Generate and copy shareable story information.
-* 📊 **Analytics Dashboard** — View feed activity and content insights using Recharts.
-* 💚 **API Health Monitor** — Monitor API availability and response latency.
-* 🗄️ **Cache Management** — Manage TanStack Query cache and stored application data.
-* 🌤️ **Live Weather** — Displays current weather information using Open-Meteo.
-* 🕐 **Live Clock** — Displays the current local time.
-* 📡 **Live Ticker** — Displays trending information from the available feed data.
-* 🎨 **Theme Customization** — Switch between different accent themes and adjust font scaling.
-* 📱 **Responsive Design** — Designed to work across desktop, tablet, and mobile screens.
+* **Unified Feed** — Combines content from Hacker News, Dev.to, and Reddit into a single feed.
+* **Global Search** — Search across available stories.
+* **Source Filtering** — Filter stories by Hacker News, Dev.to, Reddit, or view all sources.
+* **Article Inspector** — Open a story and view its information before visiting the original source.
+* **Bookmarks** — Save stories for later using browser LocalStorage.
+* **Share** — Generate and copy shareable story information.
+* **Analytics Dashboard** — View feed activity and content insights using Recharts.
+* **API Health Monitor** — Monitor API availability and response latency.
+* **Cache Management** — Manage TanStack Query cache and stored application data.
+* **Live Weather** — Displays current weather information using Open-Meteo.
+* **Live Clock** — Displays the current local time.
+* **Live Ticker** — Displays trending information from the available feed data.
+* **Theme Customization** — Switch between different accent themes and adjust font scaling.
+* **Responsive Design** — Designed to work across desktop, tablet, and mobile screens.
 
 ## 🛠️ Tech Stack
 
