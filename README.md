@@ -1,4 +1,4 @@
-# PulseStream ⚡
+# PulseStream 
 
 A multi-source developer content aggregator built with **React**, bringing technical news and developer discussions from different platforms into one unified dashboard.
 
@@ -21,7 +21,7 @@ PulseStream was built as my first React project to practice working with APIs, a
 * **Theme Customization** — Switch between different accent themes and adjust font scaling.
 * **Responsive Design** — Designed to work across desktop, tablet, and mobile screens.
 
-## 🛠️ Tech Stack
+##  Tech Stack
 
 * **React**
 * **JavaScript (ES6+)**
@@ -33,7 +33,7 @@ PulseStream was built as my first React project to practice working with APIs, a
 * **LocalStorage**
 * **Public REST APIs**
 
-## 🌐 APIs
+##  APIs
 
 PulseStream currently works with:
 
@@ -42,7 +42,7 @@ PulseStream currently works with:
 * **Reddit** — Community discussions from selected technology-related subreddits
 * **Open-Meteo API** — Weather information
 
-## 🧠 What I Practiced
+##  What I Practiced
 
 This project helped me apply several React and JavaScript concepts in a real application, including:
 
@@ -60,15 +60,15 @@ This project helped me apply several React and JavaScript concepts in a real app
 * Responsive UI development
 * Data visualization with Recharts
 
-## 📌 Project Status
+##  Project Status
 
-🚧 In Progress
+ In Progress
 
 PulseStream is currently functional and actively being refined. The core API integrations, unified feed, search, filtering, bookmarks, analytics, caching, and responsive interface have been implemented.
 
 Future improvements will focus on UI/UX refinement, performance optimization, and additional polish.
 
-## 👩🏽‍💻 Author
+##  Author
 
 **Chioma Okwara**
 
