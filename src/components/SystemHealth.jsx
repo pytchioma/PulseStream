@@ -261,11 +261,11 @@ export default function SystemHealth() {
       <div className="space-y-4">
 
         {/* API Health Monitor */}
-        <div className="rounded-xl border border-slate-800/60 bg-slate-900/40 backdrop-blur-sm p-5">
+        <div className="rounded-xl border border-white/[0.07] bg-white/[0.03] p-5">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
-              <div className="w-6 h-6 rounded-md bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center shrink-0">
-                <Activity size={12} className="text-emerald-400" />
+              <div className="w-6 h-6 rounded-md bg-white/[0.05] border border-white/[0.08] flex items-center justify-center shrink-0">
+                <Activity size={12} className="text-slate-400" />
               </div>
               <span className="text-[11px] font-mono uppercase tracking-widest text-slate-400">
                 API Health Monitor
@@ -315,10 +315,10 @@ export default function SystemHealth() {
         </div>
 
         {/* Cache Management */}
-        <div className="rounded-xl border border-slate-800/60 bg-slate-900/40 backdrop-blur-sm p-5">
+        <div className="rounded-xl border border-white/[0.07] bg-white/[0.03] p-5">
           <div className="flex items-center gap-2 mb-4">
-            <div className="w-6 h-6 rounded-md bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center shrink-0">
-              <Database size={12} className="text-emerald-400" />
+            <div className="w-6 h-6 rounded-md bg-white/[0.05] border border-white/[0.08] flex items-center justify-center shrink-0">
+              <Database size={12} className="text-slate-400" />
             </div>
             <span className="text-[11px] font-mono uppercase tracking-widest text-slate-400">
               Cache Management

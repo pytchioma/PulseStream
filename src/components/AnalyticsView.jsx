@@ -49,10 +49,10 @@ const CURSOR_STYLE = { fill: 'rgba(16,185,129,0.05)' };
 
 function Panel({ icon: Icon, title, sub, children }) {
   return (
-    <div className="rounded-xl border border-slate-800/60 bg-slate-900/40 backdrop-blur-sm p-5">
+    <div className="rounded-xl border border-white/[0.07] bg-white/[0.03] p-5">
       <div className="flex items-center gap-2 mb-4">
-        <div className="w-6 h-6 rounded-md bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center shrink-0">
-          <Icon size={12} className="text-emerald-400" />
+        <div className="w-6 h-6 rounded-md bg-white/[0.05] border border-white/[0.08] flex items-center justify-center shrink-0">
+          <Icon size={12} className="text-slate-400" />
         </div>
         <div>
           <span className="text-[11px] font-mono uppercase tracking-widest text-slate-400">{title}</span>
@@ -273,9 +273,9 @@ function SentimentMeter({ stories }) {
 
 function StatCard({ label, value, sub }) {
   return (
-    <div className="rounded-xl border border-slate-800/60 bg-slate-900/40 px-4 py-3">
+    <div className="rounded-xl border border-white/[0.07] bg-white/[0.03] px-4 py-3">
       <p className="text-[10px] font-mono uppercase tracking-widest text-slate-600 mb-1">{label}</p>
-      <p className="text-xl font-bold text-slate-100 tabular-nums">{value}</p>
+      <p className="text-xl font-bold text-slate-200 tabular-nums">{value}</p>
       {sub && <p className="text-[10px] font-mono text-slate-600 mt-0.5">{sub}</p>}
     </div>
   );
@@ -292,7 +292,7 @@ export default function AnalyticsView({ stories }) {
 
   if (stories.length === 0) {
     return (
-      <div className="rounded-xl border border-slate-800/60 bg-slate-900/40 px-5 py-12 text-center">
+      <div className="rounded-xl border border-white/[0.07] bg-white/[0.03] px-5 py-12 text-center">
         <p className="text-slate-400 text-sm font-medium mb-1">No analytics data available</p>
         <p className="text-slate-600 text-xs font-mono">Stories are still loading or no sources matched your filter</p>
       </div>

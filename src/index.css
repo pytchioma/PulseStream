@@ -5,55 +5,46 @@
   --color-zinc-950: #09090b;
 }
 
-/* ── Accent theme tokens ────────────────────────────────────────────────────
-   Applied by setting data-theme on <html>.
-   Components read these via inline style={{ color: 'var(--accent)' }} etc.
-   ───────────────────────────────────────────────────────────────────────── */
+/* ── Accent theme tokens ─────────────────────────────────────────────────────
+   Reduced opacity/brightness compared to previous version.
+   Accents are intentional and limited — status, active states, metrics only.
+   ─────────────────────────────────────────────────────────────────────────── */
 
 :root,
 [data-theme="emerald"] {
-  --accent:           #10b981;   /* emerald-500  */
-  --accent-dim:       #059669;   /* emerald-600  */
-  --accent-faint:     rgba(16, 185, 129, 0.10);
-  --accent-border:    rgba(16, 185, 129, 0.35);
-  --accent-text:      #34d399;   /* emerald-400  */
-  --accent-glow:      rgba(16, 185, 129, 0.06);
-  --accent-ticker:    rgba(16, 185, 129, 0.50);
+  --accent:           #10b981;
+  --accent-dim:       #059669;
+  --accent-faint:     rgba(16, 185, 129, 0.07);
+  --accent-border:    rgba(16, 185, 129, 0.25);
+  --accent-text:      #34d399;
+  --accent-ticker:    rgba(16, 185, 129, 0.40);
 }
 
 [data-theme="cyan"] {
-  --accent:           #06b6d4;   /* cyan-500     */
-  --accent-dim:       #0891b2;   /* cyan-600     */
-  --accent-faint:     rgba(6, 182, 212, 0.10);
-  --accent-border:    rgba(6, 182, 212, 0.35);
-  --accent-text:      #22d3ee;   /* cyan-400     */
-  --accent-glow:      rgba(6, 182, 212, 0.06);
-  --accent-ticker:    rgba(6, 182, 212, 0.50);
+  --accent:           #06b6d4;
+  --accent-dim:       #0891b2;
+  --accent-faint:     rgba(6, 182, 212, 0.07);
+  --accent-border:    rgba(6, 182, 212, 0.25);
+  --accent-text:      #22d3ee;
+  --accent-ticker:    rgba(6, 182, 212, 0.40);
 }
 
 [data-theme="amber"] {
-  --accent:           #f59e0b;   /* amber-500    */
-  --accent-dim:       #d97706;   /* amber-600    */
-  --accent-faint:     rgba(245, 158, 11, 0.10);
-  --accent-border:    rgba(245, 158, 11, 0.35);
-  --accent-text:      #fbbf24;   /* amber-400    */
-  --accent-glow:      rgba(245, 158, 11, 0.06);
-  --accent-ticker:    rgba(245, 158, 11, 0.50);
+  --accent:           #f59e0b;
+  --accent-dim:       #d97706;
+  --accent-faint:     rgba(245, 158, 11, 0.07);
+  --accent-border:    rgba(245, 158, 11, 0.25);
+  --accent-text:      #fbbf24;
+  --accent-ticker:    rgba(245, 158, 11, 0.40);
 }
 
-/* ── Font scale ─────────────────────────────────────────────────────────────
-   Applied via data-scale on <html>.
-   All rem-based sizes (Tailwind text-*, font-size) scale accordingly.
-   ───────────────────────────────────────────────────────────────────────── */
+/* ── Font scale ──────────────────────────────────────────────────────────────*/
 
 [data-scale="sm"] { font-size: 87.5%;  }
 [data-scale="md"] { font-size: 100%;   }
 [data-scale="lg"] { font-size: 112.5%; }
 
-/* ── Accent utility classes ─────────────────────────────────────────────────
-   Used in JS as className strings so themed elements don't need inline styles
-   for common patterns. Add more as needed.
-   ───────────────────────────────────────────────────────────────────────── */
+/* ── Accent utility classes ──────────────────────────────────────────────────*/
 
 .accent-text   { color: var(--accent-text); }
 .accent-border { border-color: var(--accent-border); }
@@ -61,27 +52,45 @@
 .accent-dot    { background-color: var(--accent); }
 .accent-bar    { background-color: var(--accent); }
 
-/* ── Base reset ─────────────────────────────────────────────────────────────*/
+/* ── Base reset ──────────────────────────────────────────────────────────────*/
 
 * { box-sizing: border-box; }
 
 html, body {
   margin: 0;
   padding: 0;
-  background-color: #020617;
-  color: #e2e8f0;
+  /* Charcoal — dark but not pure black, warmer than slate-950 */
+  background-color: #111213;
+  color: #d1d5db;
   font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;
 }
 
-/* ── Scrollbar ──────────────────────────────────────────────────────────────*/
+/* ── Subtle chart-reference grid ─────────────────────────────────────────────
+   Very low-contrast lines. Visible as texture when inspected closely.
+   Does not glow, does not dominate. Sits entirely behind all content.
+   ─────────────────────────────────────────────────────────────────────────── */
 
-::-webkit-scrollbar        { width: 6px; }
-::-webkit-scrollbar-track  { background: #0f172a; }
-::-webkit-scrollbar-thumb  { background: #1e293b; border-radius: 3px; }
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+  background-size: 28px 28px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── Scrollbar ───────────────────────────────────────────────────────────────*/
+
+::-webkit-scrollbar        { width: 5px; }
+::-webkit-scrollbar-track  { background: #111213; }
+::-webkit-scrollbar-thumb  { background: #2a2b2d; border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--accent, #10b981); }
 
-/* ── Animations ─────────────────────────────────────────────────────────────*/
+/* ── Animations ──────────────────────────────────────────────────────────────*/
 
 @keyframes shimmer {
   0%   { background-position: -200% 0; }
@@ -103,10 +112,10 @@ html, body {
   100% { transform: translateX(-50%); }
 }
 
-/* ── Component classes ──────────────────────────────────────────────────────*/
+/* ── Component classes ───────────────────────────────────────────────────────*/
 
 .skeleton {
-  background: linear-gradient(90deg, #1e293b 25%, #334155 50%, #1e293b 75%);
+  background: linear-gradient(90deg, #1c1d1f 25%, #252628 50%, #1c1d1f 75%);
   background-size: 200% 100%;
   animation: shimmer 1.8s infinite;
   border-radius: 4px;
@@ -127,9 +136,7 @@ html, body {
   animation: ticker 30s linear infinite;
 }
 
-.ticker-track:hover {
-  animation-play-state: paused;
-}
+.ticker-track:hover { animation-play-state: paused; }
 
 @media (prefers-reduced-motion: reduce) {
   .ticker-track { animation: none; }

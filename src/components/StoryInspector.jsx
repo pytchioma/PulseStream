@@ -81,8 +81,8 @@ export default function StoryInspector({ story, onClose, onBookmarkChange }) {
         aria-modal="true"
         aria-label="Article Inspector"
         className="fixed top-0 right-0 z-50 h-full w-full sm:w-[480px] lg:w-[520px]
-                   bg-slate-900 border-l border-slate-800 flex flex-col overflow-hidden
-                   drawer-slide-in"
+                   flex flex-col overflow-hidden drawer-slide-in"
+        style={{ backgroundColor: '#161718', borderLeft: '1px solid rgba(255,255,255,0.07)' }}
       >
         {/* Header */}
         <div className="flex items-center justify-between px-5 py-4 border-b border-slate-800 shrink-0">
@@ -133,7 +133,7 @@ export default function StoryInspector({ story, onClose, onBookmarkChange }) {
               <div className="flex items-start gap-3 py-2.5">
                 <span className="text-[10px] font-mono uppercase tracking-widest text-slate-600 w-24 shrink-0 pt-0.5">URL</span>
                 <a href={story.url} target="_blank" rel="noopener noreferrer"
-                   className="text-sm text-cyan-400/80 hover:text-cyan-300 transition-colors break-all min-w-0 line-clamp-2">
+                   className="text-sm text-slate-400 hover:text-slate-200 transition-colors break-all min-w-0 line-clamp-2">
                   {story.url}
                 </a>
               </div>
@@ -159,8 +159,8 @@ export default function StoryInspector({ story, onClose, onBookmarkChange }) {
             target="_blank"
             rel="noopener noreferrer"
             className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg
-                       bg-emerald-500/10 border border-emerald-500/30 hover:bg-emerald-500/20
-                       text-emerald-400 text-xs font-mono uppercase tracking-wider transition-colors"
+                       bg-white/[0.05] border border-white/[0.10] hover:bg-white/[0.08]
+                       text-slate-300 text-xs font-mono uppercase tracking-wider transition-colors"
           >
             <ExternalLink size={13} />
             Open Original

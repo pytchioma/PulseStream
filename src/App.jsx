@@ -213,7 +213,7 @@ function Header({ activeFilter, onFilter, statuses, search, onSearch, view, onVi
   const allOk = Object.values(statuses).every(s => s === 'ok');
 
   return (
-    <header className="border-b border-slate-800 bg-slate-950/80 backdrop-blur-md">
+    <header className="border-b border-white/[0.06]" style={{ backgroundColor: '#161718' }}>
       <div className="max-w-4xl mx-auto px-4 sm:px-6">
         <div className="flex items-center justify-between py-3 gap-3">
 
@@ -468,7 +468,7 @@ export default function App() {
   );
 
   return (
-    <div className="min-h-screen bg-slate-950">
+    <div className="min-h-screen" style={{ backgroundColor: '#111213' }}>
       <Header
         activeFilter={activeFilter}
         onFilter={setFilter}

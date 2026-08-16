@@ -40,11 +40,11 @@ export default function StoryCard({ story, index, onSelect, onBookmarkChange }) 
   return (
     <article
       onClick={() => onSelect?.(story)}
-      className="group relative rounded-xl border border-slate-800/60 bg-slate-900/40 backdrop-blur-sm
-                 hover:border-emerald-500/30 hover:bg-slate-900/70 transition-all duration-200
-                 hover:shadow-[0_0_20px_-4px_rgba(16,185,129,0.15)] overflow-hidden cursor-pointer"
+      className="group relative rounded-lg border border-white/[0.07] bg-white/[0.03]
+                 hover:border-white/[0.12] hover:bg-white/[0.05] transition-all duration-150
+                 overflow-hidden cursor-pointer"
     >
-      <div className="absolute left-0 top-0 bottom-0 w-0.5 bg-emerald-400/0 group-hover:bg-emerald-400/60 transition-all duration-200" />
+      <div className="absolute left-0 top-0 bottom-0 w-0.5 bg-transparent group-hover:bg-[var(--accent-border)] transition-all duration-150" />
 
       <div className="px-5 py-4 pl-6">
 
@@ -80,15 +80,15 @@ export default function StoryCard({ story, index, onSelect, onBookmarkChange }) 
         </div>
 
         {/* Row 2 — title (plain text, clicking opens inspector via article onClick) */}
-        <p className="text-slate-100 font-semibold text-sm sm:text-base leading-snug line-clamp-2
-                      group-hover:text-emerald-300 transition-colors duration-200 mb-3">
+        <p className="text-slate-200 font-medium text-sm sm:text-base leading-snug line-clamp-2
+                      group-hover:text-slate-100 transition-colors duration-150 mb-3">
           {story.title}
         </p>
 
         {/* Row 3 — meta */}
         <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5 text-[11px] font-mono">
           {story.author && <span className="text-slate-500">{story.author}</span>}
-          {story.score != null && <span className="text-emerald-400/80">▲ {story.score.toLocaleString()}</span>}
+          {story.score != null && <span className="text-slate-500">▲ {story.score.toLocaleString()}</span>}
           {story.commentsCount > 0 && (
             <span
               onClick={e => { e.stopPropagation(); window.open(story.commentsUrl, '_blank', 'noopener,noreferrer'); }}
